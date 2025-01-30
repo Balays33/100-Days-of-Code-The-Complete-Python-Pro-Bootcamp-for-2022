@@ -28,65 +28,26 @@ def pick_card():
      #print(my_card)
      return my_card
   
-
-player_cards=[]
-ai_Dealer_cards=[]
-
-
-
 def AI_Dealer(ai_Dealer_cards):
-    get_new_card(ai_Dealer_cards)
-    if cards_sum_chaker(ai_Dealer_cards) < 17 or cards_sum_chaker(ai_Dealer_cards) > 21:
-        get_new_card(ai_Dealer_cards)
-
-def get_new_card(ai_Dealer_cards):
-    ai_Dealer_cards.append(pick_card())
-    print(ai_Dealer_cards)
-
-
-def cards_sum_chaker(cards):
-    sum = 0
-    for card in cards:
-        sum += card
-    print(sum)
-    return sum
-
-
-
-
-
-
-
-def game():
-    #print(logo)
-    player_cards.append(pick_card())
-    print(player_car)
-    addmorecard = True
-    while addmorecard:
-        continugame = input("Do you want a other card Y: Yes or N : No : ").lower()
-        if continugame == "y":
-            player_car.append(pick_card())
-            print(player_cards)
-        elif continugame == "n":
-            print(player_cards)
-            addmorecard = False
-        else:
-            print("WRONG INPUT")
-            break 
-
-            
-    
-#AI_Dealer(ai_Dealer_cards)
-
-#game()
-
+    if 11 in  ai_Dealer_cards and sum(ai_Dealer_cards) > 21:
+        ai_Dealer_cards.remove(11)
+        ai_Dealer_cards.append(1)
+    if sum(ai_Dealer_cards) < 17 or sum(ai_Dealer_cards) > 21:
+        get_only_card(ai_Dealer_cards)
 
 def get_cards(player_cards,ai_Dealer_cards):
     for i in range(2):
         player_cards.append(pick_card())
         ai_Dealer_cards.append(pick_card())
     print(f"player cards: {player_cards}")
-    print(f"ai Dealer cards: {ai_Dealer_cards}")
+    #print(f"ai Dealer cards: {ai_Dealer_cards}")
+
+def get_only_card(playerorai_cards):
+    #print("get_only_card function")
+    playerorai_cards.append(pick_card())
+    #print(player_cards)
+    
+
 
 def scores(player_cards,ai_Dealer_cards):
     sum_player = 0
@@ -97,23 +58,91 @@ def scores(player_cards,ai_Dealer_cards):
         sum_ai_Dealer += card 
     return sum_player,sum_ai_Dealer
 
-def blackjacks_cheker():
+def blackjacks_cheker(sum_player,sum_ai_Dealer,player_cards,ai_Dealer_cards,newcard ):
+    #print("blackjacks_cheker")
     if sum_player == 21 and sum_ai_Dealer == 21:
         print("Draw")
+        newcard = False
     elif sum_player == 21:
-        print("player has blackjacks_cheker")
+        print("Player has blackjack You WIN")
+        newcard = False
     elif sum_ai_Dealer == 21:
-        print("AI Dealer has blackjacks_cheker")
+        print("AI Dealer has blackjack You Lose")
+        newcard = False
+    elif sum_ai_Dealer > 21 and sum_player < 21:
+        print("AI Dealer Lose")
+        newcard = False
+    elif sum_ai_Dealer > 21 and sum_player > 21:
+        print("AI Dealer and Player Bust")
+        newcard = False
+    elif sum_player > 21:
+        if 11 in player_cards:
+            for card in range(len(player_cards)):
+                if player_cards[card] == 11:
+                    player_cards[card] = 1
+                    sum_player -= 10
+        else:
+            print("Player Lose")
+            newcard = False
+        
+        
+    else:
+        print(player_cards)
+    return player_cards,ai_Dealer_cards,newcard
+
 
 
 
 def games(player_cards,ai_Dealer_cards):    
-    #print(logo)
+    print(logo)
+    newcard = True
     get_cards(player_cards,ai_Dealer_cards)
-    scores(player_cards,ai_Dealer_cards)
-    blackjacks_cheker(sum_player=scores(),sum_ai_Dealer))
+    sum_player,sum_ai_Dealer= scores(player_cards,ai_Dealer_cards)
+    
+    newcard = blackjacks_cheker(sum_player,sum_ai_Dealer,player_cards,ai_Dealer_cards,newcard)[2]
 
-games(player_cards,ai_Dealer_cards)
+   
+    while newcard:
+        continuegame= input("Do you wnat to other card : Y yes or N no: ").lower()
+        if continuegame == "y":
+            get_only_card(player_cards)
+            AI_Dealer(ai_Dealer_cards)
+            sum_player,sum_ai_Dealer= scores(player_cards,ai_Dealer_cards)
+            newcard = blackjacks_cheker(sum_player,sum_ai_Dealer,player_cards,ai_Dealer_cards,newcard)[2]
+            
+        elif continuegame == "n":
+            newcard = False
+            AI_Dealer(ai_Dealer_cards)
+            if sum(player_cards) > sum(ai_Dealer_cards):
+                print("You WIN")
+            elif sum(player_cards) < sum(ai_Dealer_cards):
+                print("You Lose")
+            elif sum(player_cards) == sum(ai_Dealer_cards):
+                print("Draw")
+            else:
+                print("Something went wrong")
+            
+
+        else:
+            print("WRONG INPUT")
+            break
+        
+        
+
+    
+
+
+
+
+while input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower() == "y":
+    print("\n\n\n\n\n\n\n\n")
+    player_cards=[]
+    ai_Dealer_cards=[]
+    newcard = True
+    games(player_cards,ai_Dealer_cards)
+    print(f" This is the player cards: {player_cards}")
+    print(f" This is the AI dealer cards: {ai_Dealer_cards}")
+    
 
 
 
