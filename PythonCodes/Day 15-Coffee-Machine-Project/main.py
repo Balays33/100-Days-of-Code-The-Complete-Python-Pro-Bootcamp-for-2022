@@ -19,23 +19,26 @@ def coffee_choose(user_coffee):
     
     if user_coffee == "espresso" or user_coffee == "e" or user_coffee == 1:
         #print_out_Menu_order("espresso")
-        if check_enough_resources("espresso",process):
-            print("We are fine with your order")
-            remove_resources("espresso")
-        else:
-            print("Sorry we are out of resources")
+        if request_payment(MENU["espresso"]["cost"],process):
+            if check_enough_resources("espresso",process):
+                print("We are fine with your order")
+                remove_resources("espresso")
+            else:
+                print("Sorry we are out of resources")
     elif user_coffee == "latte" or user_coffee == "l" or user_coffee == 2:
-        if check_enough_resources("latte",process):
-            print("We are fine with your order")
-            remove_resources("latte")
-        else:
-            print("Sorry we are out of resources")
+        if request_payment(MENU["latte"]["cost"],process):
+            if check_enough_resources("latte",process):
+                print("We are fine with your order")
+                remove_resources("latte")
+            else:
+                print("Sorry we are out of resources")
     elif user_coffee == "cappuccino" or user_coffee == "c"or user_coffee == 3:
-        if check_enough_resources("cappuccino",process):
-            print("We are fine with your order")
-            remove_resources("cappuccino")
-        else:
-            print("Sorry we are out of resources")
+        if request_payment(MENU["cappuccino"]["cost"],process):
+            if check_enough_resources("cappuccino",process):
+                print("We are fine with your order")
+                remove_resources("cappuccino")
+            else:
+                print("Sorry we are out of resources")
     else: 
         print("wrong input")
 
@@ -93,6 +96,34 @@ def remove_resources(Menu_item):
     resources["milk"] -= MENU[Menu_item]["ingredients"]["milk"]
     resources["coffee"] -= MENU[Menu_item]["ingredients"]["coffee"]
     #print_resources()
+
+
+#TODO: 6 Process coins.
+
+def request_payment(cost_of_beverage,process):
+    """ This function requests coins from the user and if provided sufficient amount, dispenses coffee """
+
+    # collect all the coins and determine monetary value
+    quarters = int(input("How many quarters? "))
+    dimes = int(input("How many dimes? "))
+    nickels = int(input("How many nickels? "))
+    pennies = int(input("How many pennies? "))
+    quarters_value = quarters * 0.25
+    dimes_value = dimes * 0.1
+    nickels_value = nickels * 0.05
+    pennies_value = pennies * 0.01
+    total_money_given = quarters_value + dimes_value + nickels_value + pennies_value
+    print(f"The total money given is {total_money_given}")
+    print(f"The cost of the beverage is {cost_of_beverage}")
+    if total_money_given >= cost_of_beverage:
+        print(f"you have enough money to process your change back is {round(total_money_given-cost_of_beverage,2)}")
+        process = True
+    else:
+        print("The coffee cannot be process")
+        process = False
+    return process
+
+
     
     
 
