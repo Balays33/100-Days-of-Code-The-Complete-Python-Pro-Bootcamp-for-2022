@@ -38,6 +38,20 @@ def random_movment(run_movment):
     tim.forward(30)
     tim.setheading(random.choice(direction))
   
+def make_Sprirograph(pass_degree):
+  jump_degree = 360 / pass_degree 
+  tim.speed(10)
+  for _ in range(int(jump_degree)):
+    tim.color(change_color())
+    tim.circle(100)
+    tim.left(pass_degree)
+  
+  
   
 #shape_maker(8)
-random_movment(100)
+#random_movment(100)
+make_Sprirograph(30)
+  
+
+  
+  
