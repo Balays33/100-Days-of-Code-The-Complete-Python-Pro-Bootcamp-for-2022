@@ -1,5 +1,6 @@
 import turtle as t
 import random
+import screen
 
 tim = t.Turtle()
 
@@ -52,6 +53,9 @@ def make_Sprirograph(pass_degree):
 #random_movment(100)
 make_Sprirograph(30)
   
+
+screen = t.Screen()
+screen.exitonclick()
 
   
   
