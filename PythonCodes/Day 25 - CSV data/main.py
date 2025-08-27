@@ -25,7 +25,25 @@ print(data)
 # print(temperatures)
 
 
-import pandas
+# import pandas
 
-data = pandas.read_csv("./PythonCodes/Day 25 - CSV data/weather_data.csv")
-print(data)
+# data = pandas.read_csv("./PythonCodes/Day 25 - CSV data/weather_data.csv")
+# print(data)
+
+import pandas
+print("Day 25")
+
+data =pandas.read_csv("/home/user/100-Days-of-Code-The-Complete-Python-Pro-Bootcamp-for-2022/PythonCodes/Day 25 - CSV data/2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv")
+# print(data)
+gray = len(data[data["Primary Fur Color"] == "Gray"])
+cinnamon = len(data[data["Primary Fur Color"] == "Cinnamon"])
+black = len(data[data["Primary Fur Color"] == "Black"])
+# print(black)
+
+data_dict = {
+    "Fur Color" : ["Gray" , "Cinnamon", "Black" ],
+    "Count" : [gray, cinnamon, black]
+}
+
+df = pandas.DataFrame(data_dict)
+df.to_csv("Squirrel_count.csv")
